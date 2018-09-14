@@ -115,15 +115,15 @@ include('connection.php');
 //echo $id;
 if(isset($_POST['submit']))
 {
-  $args = array("$id",'"donate","$desc")         //SQL INJECTION PROTECTED
-  $key =  array_search($_POST['id'],$args));
-  $id = $args[$key];
-  $key =  array_search($_POST['donate'],$args));
-  $donate = $args[$key];
-  $key =  array_search($_POST['desc'],$args));
-  $desc = $args[$key];
+                                        
+  $id = $_POST["id"];
+  $donate =$_POST["donate"];
+  $desc = $_POST["desc"];
   
-  $sqle=mysqli_query($conn,"insert into ngo_requirements(ngo_id,req,req_descr)values('$id','$donate','$desc')");
+  $sqle="insert into ngo_requirements(ngo_id,req,req_descr)values(?,?,?)";    
+  $stmt=$conn->prepare($sqle)                                                   //SQL INJECTION PROTECTED
+  $stmt->exec([$id,$donate,$desc])
+  
   if($sqle)
   {
     $message="Data has been successfully submitted and will be visible to users to help.";
@@ -135,7 +135,7 @@ if(isset($_POST['submit']))
   echo "<script type='text/javascript'>alert('$error');</script>";
   }
 }
-mysqli_close($conn);
+$conn = null;
 ?>
 <?php
 include('footer.php');
