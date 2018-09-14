@@ -5,7 +5,7 @@ $password="";
 $database="miniproject";
 
 try{
-$conn = new PDO("mysql:host=$servername", $username, $password,$database);  //Sql Injection Protected Connection
+$conn = new PDO("mysqli:host=$servername", $username, $password,$database);  //Sql Injection Protected Connection
 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	if(!$conn)
 	{
